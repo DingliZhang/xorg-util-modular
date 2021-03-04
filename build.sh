@@ -528,10 +528,14 @@ clone() {
     esac
 
     DIR="$module${component:+/}$component"
-    GITROOT=${GITROOT:="git://anongit.freedesktop.org/git"}
+    GITROOT=${GITROOT:="http://anongit.freedesktop.org/git"}
 
     if [ ! -d "$DIR" ]; then
-        git clone $GITCLONEOPTS "$GITROOT/$BASEDIR$DIR" "$DIR"
+		if [ $component = "libxshmfence" ]; then
+		    git clone $GITCLONEOPTS -b riscv32 "https://gitee.com/zdlgv5/libxshmfence.git" "$DIR"
+		else
+		    git clone $GITCLONEOPTS "$GITROOT/$BASEDIR$DIR" "$DIR"
+		fi
         if [ $? -ne 0 ]; then
             echo "Failed to clone $module${component:+/}$component. Ignoring."
             clonefailed_components="$clonefailed_components $module${component:+/}$component"

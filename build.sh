@@ -532,7 +532,7 @@ clone() {
 
     if [ ! -d "$DIR" ]; then
 		if [ $component = "libxshmfence" ]; then
-		    git clone $GITCLONEOPTS -b riscv32 "https://gitee.com/zdlgv5/libxshmfence.git" "$DIR"
+		    git clone $GITCLONEOPTS -b riscv32 "https://gitee.com/DingliZhang/libxshmfence.git" "$DIR"
 		else
 		    git clone $GITCLONEOPTS "$GITROOT/$BASEDIR$DIR" "$DIR"
 		fi

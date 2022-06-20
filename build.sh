@@ -530,6 +530,157 @@ clone() {
     DIR="$module${component:+/}$component"
     GITROOT=${GITROOT:="http://anongit.freedesktop.org/git"}
 
+    # solidify commit id
+    case $DIR in
+    "util/macros")
+        COMMITID="b87663"
+        ;;
+    "font/util")
+        COMMITID="564adb"
+        ;;
+    "doc/xorg-sgml-doctools")
+        COMMITID="4b4947"
+        ;;
+    "doc/xorg-docs")
+        COMMITID="5c6744"
+        ;;
+    "proto/xorgproto")
+        COMMITID="914d8f"
+        ;;
+    "xcb/proto")
+        COMMITID="be9c25"
+        ;;
+    "lib/libxtrans")
+        COMMITID="3b5df8"
+        ;;
+    "lib/libXau")
+        COMMITID="d9443b"
+        ;;
+    "lib/libXdmcp")
+        COMMITID="bc141f"
+        ;;
+    "xcb/pthread-stubs")
+        COMMITID="aee265"
+        ;;
+    "xcb/libxcb")
+        COMMITID="43fbf0"
+        ;;
+    "xcb/util")
+        COMMITID="dbfc1c"
+        ;;
+    "xcb/util-image")
+        COMMITID="44aa48"
+        ;;
+    "xcb/util-keysyms")
+        COMMITID="691515"
+        ;;
+    "xcb/util-renderutil")
+        COMMITID="2970e4"
+        ;;
+    "xcb/util-wm")
+        COMMITID="1940f4"
+        ;;
+    "lib/libX11")
+        COMMITID="150154"
+        ;;
+    "lib/libXext")
+        COMMITID="479040"
+        ;;
+    "lib/libdmx")
+        COMMITID="d19f96"
+        ;;
+    "lib/libfontenc")
+        COMMITID="2baea1"
+        ;;
+    "lib/libFS")
+        COMMITID="02de73"
+        ;;
+    "lib/libICE")
+        COMMITID="b9411f"
+        ;;
+    "lib/libSM")
+        COMMITID="e6ccf1"
+        ;;
+    "lib/libXt")
+        COMMITID="1d5bb7"
+        ;;
+    "lib/libXmu")
+        COMMITID="e9efe2"
+        ;;
+    "lib/libXpm")
+        COMMITID="83e542"
+        ;;
+    "lib/libXaw")
+        COMMITID="9cfeba"
+        ;;
+    "lib/libXaw3d")
+        COMMITID="d5d828"
+        ;;
+    "lib/libXfixes")
+        COMMITID="6fe3bd"
+        ;;
+    "lib/libXcomposite")
+        COMMITID="fd7d02"
+        ;;
+    "lib/libXrender")
+        COMMITID="bce061"
+        ;;
+    "lib/libXdamage")
+        COMMITID="fea0f3"
+        ;;
+    "lib/libXcursor")
+        COMMITID="801925"
+        ;;
+    "lib/libXfont")
+        COMMITID="3a4f68"
+        ;;
+    "lib/libXft")
+        COMMITID="98b121"
+        ;;
+    "lib/libXi")
+        COMMITID="f24d7f"
+        ;;
+    "lib/libXinerama")
+        COMMITID="c5187f"
+        ;;
+    "lib/libxkbfile")
+        COMMITID="8e45c7"
+        ;;
+    "lib/libXrandr")
+        COMMITID="55dcda"
+        ;;
+    "lib/libXRes")
+        COMMITID="c05c6d"
+        ;;
+    "lib/libXScrnSaver")
+        COMMITID="aa9fd5"
+        ;;
+    "lib/libxshmfence")
+        COMMITID=""
+        ;;
+    "lib/libXtst")
+        COMMITID="769598"
+        ;;
+    "lib/libXv")
+        COMMITID="03a6f5"
+        ;;
+    "lib/libXvMC")
+        COMMITID="360863"
+        ;;
+    "lib/libXxf86dga")
+        COMMITID="e605c5"
+        ;;
+    "lib/libXxf86vm")
+        COMMITID="7f43cd"
+        ;;
+    "lib/libpciaccess")
+        COMMITID="9c01fd"
+        ;;
+    *)
+        COMMITID=""
+        ;;
+    esac
+
     if [ ! -d "$DIR" ]; then
 		if [ $component = "libxshmfence" ]; then
 		    git clone $GITCLONEOPTS -b riscv32 "https://github.com/openjdk-riscv/libxshmfence.git" "$DIR"
@@ -561,6 +712,14 @@ clone() {
             clonefailed_components="$clonefailed_components $module${component:+/}$component"
             return 1
         fi
+    if [ X"$COMMITID" != X ]; then
+        git checkout $COMMITID
+            if [ $? -ne 0 ]; then
+                echo "Failed to checkout $module${component:+/}$component to $COMMITID. Ignoring."
+                clonefailed_components="$clonefailed_components $module${component:+/}$component"
+                return 1
+            fi
+    fi
 	cd ${old_pwd}
     else
         echo "git cannot clone into an existing directory $module${component:+/}$component"
